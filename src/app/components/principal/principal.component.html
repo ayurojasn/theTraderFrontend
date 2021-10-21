@@ -1,0 +1,28 @@
+<div>
+  <canvas id="c"></canvas>
+  <mat-card class="card">
+    <mat-card-title>Estrellas más cercanas</mat-card-title>
+    <mat-card-subtitle>
+      Escoge la estrella a la que quieres viajar
+    </mat-card-subtitle>
+    <mat-radio-group
+      aria-labelledby="example-radio-group-label"
+      class="example-radio-group"
+      [(ngModel)]= "favoriteSeason">
+      <mat-radio-button
+        class="example-radio-button"
+        *ngFor="let season of seasons"
+        [value]="season"
+      >
+        {{ season }}
+      </mat-radio-button>
+    </mat-radio-group>
+    <div>Tu estrella escogida es: {{ favoriteSeason }}</div>
+
+    <mat-card-actions align="end">
+      <button mat-button color="primary" [routerLink]="'/ship'">
+        Viajar
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</div>
