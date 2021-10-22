@@ -13,7 +13,7 @@ export class Star {
 
         public planetList: Planet[],
 
-        public spaceStarList: Spacecraft
+        public spaceStarList: Spacecraft[]
 
     ){}
 }

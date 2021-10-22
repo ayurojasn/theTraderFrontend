@@ -12,6 +12,8 @@ import { ShipComponent } from './components/ship/ship.component';
 import { HttpClientModule} from '@angular/common/http';
 import {MatRadioModule} from '@angular/material/radio';
 import { FormsModule } from '@angular/forms';
+import { PlanetsComponent } from './components/planets/planets.component';
+import { ProductsComponent } from './components/products/products.component';
 
 @NgModule({
   declarations: [
@@ -19,6 +21,8 @@ import { FormsModule } from '@angular/forms';
     MainComponent,
     PrincipalComponent,
     ShipComponent,
+    PlanetsComponent,
+    ProductsComponent,
   ],
   imports: [
     BrowserModule,

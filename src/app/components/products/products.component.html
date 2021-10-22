@@ -1,0 +1,21 @@
+<div>
+    <canvas id="c"></canvas>
+    <mat-card class="card">
+        <mat-card-title>Planetas de {{planetP.planetName}}</mat-card-title>
+        <mat-card-subtitle>
+          Escoge el planeta al que quieres viajar
+        </mat-card-subtitle>
+        <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group" [(ngModel)]= "chosenProduct">
+          <mat-radio-button class="example-radio-button" *ngFor="let product of products" [value]="product">
+            {{ product.productName }}
+          </mat-radio-button>
+        </mat-radio-group>
+        <div>Tu planeta escogido es: {{ chosenProduct.id}}</div>
+    
+        <mat-card-actions align="end">
+        <!-- <button mat-button color="primary" [routerLink]="['/products', player, star, chosenProduct.id]">
+            Viajar
+          </button> -->
+        </mat-card-actions>
+      </mat-card>
+</div>

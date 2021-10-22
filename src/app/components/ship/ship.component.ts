@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 
@@ -8,7 +9,13 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
   styleUrls: ['./ship.component.scss'],
 })
 export class ShipComponent implements OnInit {
-  constructor() {}
+
+  public player: number;
+  public star: number;
+  constructor(private route: ActivatedRoute) {
+    this.star = this.route.snapshot.params.star;
+    this.player = this.route.snapshot.params.player;
+  }
 
   ngOnInit(): void {
     

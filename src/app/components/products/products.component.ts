@@ -1,37 +1,48 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Planet } from 'src/app/model/planet';
+import { Product } from 'src/app/model/product';
+import { ProductPlanet } from 'src/app/model/product-planet';
 import { Spacecraft } from 'src/app/model/spacecraft';
 import { Star } from 'src/app/model/star';
-import { Universe } from 'src/app/model/universe';
-import { UniverseService } from 'src/app/shared/universe.service';
+import { PlanetsService } from 'src/app/shared/planets.service';
+import { ProductsService } from 'src/app/shared/products.service';
+import { StarService } from 'src/app/shared/star.service';
 import * as THREE from 'three';
 
 @Component({
-  selector: 'app-principal',
-  templateUrl: './principal.component.html',
-  styleUrls: ['./principal.component.scss'],
+  selector: 'app-products',
+  templateUrl: './products.component.html',
+  styleUrls: ['./products.component.scss']
 })
-export class PrincipalComponent implements OnInit {
-
- 
-  // seasons: string[] = ['Star1', 'Star2', 'Star3', 'Star4', 'Start5', 'Star6', 'Star7', 'Star8', 'Star9', 'Star10'];
+export class ProductsComponent implements OnInit {
 
   public player: number;
+  public star: number;
+  public planet: number;
+  spacecraftList: Spacecraft[] = [];
   planetList: Planet[] = [];
-  spacecraft: Spacecraft[] = [];
-  star: Star = new Star(0, "", 0, 0, 0, true, this.planetList, this.spacecraft);
-  stars: Star[] = [];
-  chosenStar: Star = new Star(0, "", 0, 0, 0, true, this.planetList, this.spacecraft);
 
-  universe: Universe[] = [];
-  constructor(private universeService: UniverseService, private route: ActivatedRoute) {
+  productPlanetList: ProductPlanet[] = [];
+  starP: Star = new Star(0, "", 0, 0, 0, true, this.planetList, this.spacecraftList);
+
+  planetP: Planet = new Planet(0, "", this.starP, this.productPlanetList);
+
+  producto: Product = new Product(0,"",0,0,0,0,0,true,0,true);
+  products: Product[] = [];
+  public chosenProduct: ProductPlanet = new ProductPlanet(0, this.producto, this.planetP);
+  constructor(private productsService: ProductsService, private route: ActivatedRoute, private planetsService: PlanetsService) { 
+    this.star = this.route.snapshot.params.star;
     this.player = this.route.snapshot.params.player;
+    this.planet = this.route.snapshot.params.planet;
   }
 
   ngOnInit(): void {
 
-    this.universeService.findAll().subscribe(universe => this.universe = universe);
+    this.productsService.findAll().subscribe(products => this.products = products);
+
+    this.planetsService.findPlanet(this.planet).subscribe(planetP => this.planetP = planetP);
+
 
 
     const getRandomParticelPos = (particleCount: number) => {
@@ -155,4 +166,5 @@ export class PrincipalComponent implements OnInit {
     };
     main();
   }
+
 }

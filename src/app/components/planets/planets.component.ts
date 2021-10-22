@@ -1,38 +1,38 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Planet } from 'src/app/model/planet';
+import { ProductPlanet } from 'src/app/model/product-planet';
 import { Spacecraft } from 'src/app/model/spacecraft';
 import { Star } from 'src/app/model/star';
-import { Universe } from 'src/app/model/universe';
-import { UniverseService } from 'src/app/shared/universe.service';
+import { StarService } from 'src/app/shared/star.service';
 import * as THREE from 'three';
 
 @Component({
-  selector: 'app-principal',
-  templateUrl: './principal.component.html',
-  styleUrls: ['./principal.component.scss'],
+  selector: 'app-planets',
+  templateUrl: './planets.component.html',
+  styleUrls: ['./planets.component.scss']
 })
-export class PrincipalComponent implements OnInit {
+export class PlanetsComponent implements OnInit {
 
- 
-  // seasons: string[] = ['Star1', 'Star2', 'Star3', 'Star4', 'Start5', 'Star6', 'Star7', 'Star8', 'Star9', 'Star10'];
+  public star: number;
 
   public player: number;
+  spacecraftList: Spacecraft[] = [];
   planetList: Planet[] = [];
-  spacecraft: Spacecraft[] = [];
-  star: Star = new Star(0, "", 0, 0, 0, true, this.planetList, this.spacecraft);
-  stars: Star[] = [];
-  chosenStar: Star = new Star(0, "", 0, 0, 0, true, this.planetList, this.spacecraft);
-
-  universe: Universe[] = [];
-  constructor(private universeService: UniverseService, private route: ActivatedRoute) {
+  productPlanetList: ProductPlanet[] = [];
+  starP: Star = new Star(0, "", 0, 0, 0, true, this.planetList, this.spacecraftList);
+  chosenPlanet: Planet = new Planet(0, "", this.starP , this.productPlanetList);
+  starList: Star[] = [];
+  constructor(private starService: StarService, private route: ActivatedRoute) {
+    this.star = this.route.snapshot.params.star;
     this.player = this.route.snapshot.params.player;
-  }
+   }
 
   ngOnInit(): void {
 
-    this.universeService.findAll().subscribe(universe => this.universe = universe);
+    this.starService.findStar(this.star).subscribe(starP => this.starP = starP);
 
+    this.starService.findAll().subscribe(starList => this.starList = starList)
 
     const getRandomParticelPos = (particleCount: number) => {
       const arr = new Float32Array(particleCount * 3);
@@ -155,4 +155,5 @@ export class PrincipalComponent implements OnInit {
     };
     main();
   }
+
 }
