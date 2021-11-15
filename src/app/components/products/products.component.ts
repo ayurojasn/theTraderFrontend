@@ -2,10 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Planet } from 'src/app/model/planet';
 import { Product } from 'src/app/model/product';
+import { ProductCrew } from 'src/app/model/product-crew';
 import { ProductPlanet } from 'src/app/model/product-planet';
 import { Spacecraft } from 'src/app/model/spacecraft';
 import { Star } from 'src/app/model/star';
+import { CrewService } from 'src/app/shared/crew.service';
 import { PlanetsService } from 'src/app/shared/planets.service';
+import { PlayerService } from 'src/app/shared/player.service';
 import { ProductsService } from 'src/app/shared/products.service';
 import { StarService } from 'src/app/shared/star.service';
 import * as THREE from 'three';
@@ -20,6 +23,7 @@ export class ProductsComponent implements OnInit {
   public player: number;
   public star: number;
   public planet: number;
+  public crewPlayerId: number = 1;
   spacecraftList: Spacecraft[] = [];
   planetList: Planet[] = [];
 
@@ -29,9 +33,14 @@ export class ProductsComponent implements OnInit {
   planetP: Planet = new Planet(0, "", this.starP, this.productPlanetList);
 
   producto: Product = new Product(0,"",0,0,0,0,0,true,0,true);
-  products: Product[] = [];
+  products: ProductPlanet[] = [];
+
+  crewProducts: ProductCrew[] = [];
   public chosenProduct: ProductPlanet = new ProductPlanet(0, this.producto, this.planetP);
-  constructor(private productsService: ProductsService, private route: ActivatedRoute, private planetsService: PlanetsService) { 
+
+  public chosenCrewProduct: ProductCrew = new ProductCrew(0, this.producto);
+
+  constructor(private productsService: ProductsService, private planetsService: PlanetsService, private crewService: CrewService, private playerService: PlayerService, private route: ActivatedRoute) { 
     this.star = this.route.snapshot.params.star;
     this.player = this.route.snapshot.params.player;
     this.planet = this.route.snapshot.params.planet;
@@ -39,8 +48,17 @@ export class ProductsComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.productsService.findAll().subscribe(products => this.products = products);
+    this.productsService.getProductPlanet(this.planet).subscribe(products => this.products = products);
 
+    this.playerService.getCrewPlayer(this.player).subscribe( crewPlayerId => {
+      this.crewPlayerId = crewPlayerId; 
+      console.log(this.crewPlayerId);
+      this.crewService.getProductCrew(this.crewPlayerId).subscribe(crewProducts => this.crewProducts = crewProducts);
+      console.log(this.crewProducts);
+    });
+
+   
+    
     this.planetsService.findPlanet(this.planet).subscribe(planetP => this.planetP = planetP);
 
 

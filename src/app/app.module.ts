@@ -22,7 +22,7 @@ import { ProductsComponent } from './components/products/products.component';
     PrincipalComponent,
     ShipComponent,
     PlanetsComponent,
-    ProductsComponent,
+    ProductsComponent
   ],
   imports: [
     BrowserModule,

@@ -4,6 +4,8 @@ import { Planet } from 'src/app/model/planet';
 import { ProductPlanet } from 'src/app/model/product-planet';
 import { Spacecraft } from 'src/app/model/spacecraft';
 import { Star } from 'src/app/model/star';
+import { CrewService } from 'src/app/shared/crew.service';
+import { PlayerService } from 'src/app/shared/player.service';
 import { StarService } from 'src/app/shared/star.service';
 import * as THREE from 'three';
 
@@ -16,23 +18,34 @@ export class PlanetsComponent implements OnInit {
 
   public star: number;
 
+  public time: number = 5;
   public player: number;
+
+  public crewPlayerId: number = 1;
   spacecraftList: Spacecraft[] = [];
   planetList: Planet[] = [];
   productPlanetList: ProductPlanet[] = [];
   starP: Star = new Star(0, "", 0, 0, 0, true, this.planetList, this.spacecraftList);
+
+  len!: number;
   chosenPlanet: Planet = new Planet(0, "", this.starP , this.productPlanetList);
   starList: Star[] = [];
-  constructor(private starService: StarService, private route: ActivatedRoute) {
+  constructor(private starService: StarService, private playerService: PlayerService, private crewService: CrewService, private route: ActivatedRoute) {
     this.star = this.route.snapshot.params.star;
     this.player = this.route.snapshot.params.player;
    }
 
+  lenM():void{
+
+   }
   ngOnInit(): void {
 
     this.starService.findStar(this.star).subscribe(starP => this.starP = starP);
-
-    this.starService.findAll().subscribe(starList => this.starList = starList)
+    this.starService.findAll().subscribe(starList => this.starList = starList);
+    this.playerService.getCrewPlayer(this.player).subscribe( crewPlayerId => {
+      this.crewPlayerId = crewPlayerId; 
+      this.crewService.updateTimeCrew(this.crewPlayerId, this.time).subscribe(time => this.time = time)
+    });
 
     const getRandomParticelPos = (particleCount: number) => {
       const arr = new Float32Array(particleCount * 3);

@@ -17,4 +17,7 @@ export class PlayerService {
   findAll(): Observable<Player[]>{
     return this.http.get<Player[]>("http://localhost:8080/players");
   }
+  getCrewPlayer(playerid: number): Observable<number>{
+    return this.http.get<number>("http://localhost:8080/crewPlayer/" + playerid);
+  }
 }
