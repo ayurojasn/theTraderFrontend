@@ -6,6 +6,7 @@ import { ProductCrew } from 'src/app/model/product-crew';
 import { ProductPlanet } from 'src/app/model/product-planet';
 import { Spacecraft } from 'src/app/model/spacecraft';
 import { Star } from 'src/app/model/star';
+import { Crew } from 'src/app/model/crew';
 import { CrewService } from 'src/app/shared/crew.service';
 import { PlanetsService } from 'src/app/shared/planets.service';
 import { PlayerService } from 'src/app/shared/player.service';
@@ -36,6 +37,9 @@ export class ProductsComponent implements OnInit {
   products: ProductPlanet[] = [];
 
   crewProducts: ProductCrew[] = [];
+
+  spacecraft: Spacecraft = new Spacecraft(0, "", 0, 0);
+  crew: Crew = new Crew(0, "", 0, 0, this.spacecraft, this.crewProducts);
   public chosenProduct: ProductPlanet = new ProductPlanet(0, this.producto, this.planetP);
 
   public chosenCrewProduct: ProductCrew = new ProductCrew(0, this.producto);
@@ -52,9 +56,10 @@ export class ProductsComponent implements OnInit {
 
     this.playerService.getCrewPlayer(this.player).subscribe( crewPlayerId => {
       this.crewPlayerId = crewPlayerId; 
-      console.log(this.crewPlayerId);
+      this.crewService.getCrew(this.crewPlayerId).subscribe(crew => this.crew = crew);
+      console.log(this.crew);
       this.crewService.getProductCrew(this.crewPlayerId).subscribe(crewProducts => this.crewProducts = crewProducts);
-      console.log(this.crewProducts);
+
     });
 
    

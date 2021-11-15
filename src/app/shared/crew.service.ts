@@ -18,4 +18,8 @@ export class CrewService {
   getProductCrew(crewid: number):  Observable<ProductCrew[]>{
     return this.http.get<ProductCrew[]>("http://localhost:8080/productCrew/" + crewid);  
   }
+
+  getCrew(crewid: number): Observable<Crew>{
+    return this.http.get<Crew>("http://localhost:8080/crew/" + crewid);
+  }
 }
