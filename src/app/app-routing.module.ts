@@ -8,7 +8,7 @@ import { ShipComponent } from './components/ship/ship.component';
 
 const routes: Routes = [
   {path: '' , component: MainComponent},
-  {path: 'principal/:player', component: PrincipalComponent},
+  {path: 'principal/:player/:starId', component: PrincipalComponent},
   {path: 'ship/:player/:star', component: ShipComponent},
   {path: 'planets/:player/:star', component: PlanetsComponent},
   {path: 'products/:player/:star/:planet', component: ProductsComponent}

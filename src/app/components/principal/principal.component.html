@@ -1,7 +1,7 @@
 <div>
   <canvas id="c"></canvas>
   <mat-card class="card">
-    <mat-card-title>Estrellas más cercanas</mat-card-title>
+    <mat-card-title class="title">Estrellas más cercanas desde {{star.starName}}</mat-card-title>
     <mat-card-subtitle>
       Escoge la estrella a la que quieres viajar
     </mat-card-subtitle>
@@ -9,11 +9,9 @@
       aria-labelledby="example-radio-group-label"
       class="example-radio-group"
       [(ngModel)]= "chosenStar">
-      <div *ngFor="let uni of universe">
-      <mat-radio-button class="example-radio-button" *ngFor="let star of uni.stars" [value]="star">
+      <mat-radio-button class="example-radio-button" *ngFor="let star of stars" [value]="star">
         {{ star.starName }}
       </mat-radio-button>
-    </div>
     </mat-radio-group>
     <div>Tu estrella escogida es: {{ chosenStar.starName }}</div>
 

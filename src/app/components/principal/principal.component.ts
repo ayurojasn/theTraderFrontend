@@ -4,6 +4,7 @@ import { Planet } from 'src/app/model/planet';
 import { Spacecraft } from 'src/app/model/spacecraft';
 import { Star } from 'src/app/model/star';
 import { Universe } from 'src/app/model/universe';
+import { StarService } from 'src/app/shared/star.service';
 import { UniverseService } from 'src/app/shared/universe.service';
 import * as THREE from 'three';
 
@@ -13,27 +14,30 @@ import * as THREE from 'three';
   styleUrls: ['./principal.component.scss'],
 })
 export class PrincipalComponent implements OnInit {
-
- 
-  // seasons: string[] = ['Star1', 'Star2', 'Star3', 'Star4', 'Start5', 'Star6', 'Star7', 'Star8', 'Star9', 'Star10'];
-
   public player: number;
+
+  public starId: number;
   planetList: Planet[] = [];
   spacecraft: Spacecraft[] = [];
   star: Star = new Star(0, "", 0, 0, 0, true, this.planetList, this.spacecraft);
   stars: Star[] = [];
   chosenStar: Star = new Star(0, "", 0, 0, 0, true, this.planetList, this.spacecraft);
 
-  universe: Universe[] = [];
-  constructor(private universeService: UniverseService, private route: ActivatedRoute) {
+  // universe: Universe[] = [];
+  constructor(private universeService: UniverseService, private starService: StarService, private route: ActivatedRoute) {
     this.player = this.route.snapshot.params.player;
+    this.starId = this.route.snapshot.params.starId;
   }
 
   ngOnInit(): void {
 
-    this.universeService.findAll().subscribe(universe => this.universe = universe);
+    
+   // this.universeService.findAll().subscribe(universe => this.universe = universe);
 
+    this.starService.findStar(this.starId).subscribe(star => this.star = star);
+    this.universeService.nearbyStars(this.starId).subscribe(stars => this.stars = stars);
 
+    //Canva background
     const getRandomParticelPos = (particleCount: number) => {
       const arr = new Float32Array(particleCount * 3);
       for (let i = 0; i < particleCount; i++) {
