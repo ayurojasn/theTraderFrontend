@@ -1,9 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Crew } from 'src/app/model/crew';
 import { Planet } from 'src/app/model/planet';
+import { ProductCrew } from 'src/app/model/product-crew';
 import { Spacecraft } from 'src/app/model/spacecraft';
 import { Star } from 'src/app/model/star';
 import { Universe } from 'src/app/model/universe';
+import { CrewService } from 'src/app/shared/crew.service';
+import { PlayerService } from 'src/app/shared/player.service';
 import { StarService } from 'src/app/shared/star.service';
 import { UniverseService } from 'src/app/shared/universe.service';
 import * as THREE from 'three';
@@ -17,14 +21,20 @@ export class PrincipalComponent implements OnInit {
   public player: number;
 
   public starId: number;
+  public time: number = 5;
+  public crewPlayerId: number = 1;
   planetList: Planet[] = [];
-  spacecraft: Spacecraft[] = [];
-  star: Star = new Star(0, "", 0, 0, 0, true, this.planetList, this.spacecraft);
+  spacecrafts: Spacecraft[] = [];
+  star: Star = new Star(0, "", 0, 0, 0, true, this.planetList, this.spacecrafts);
   stars: Star[] = [];
-  chosenStar: Star = new Star(0, "", 0, 0, 0, true, this.planetList, this.spacecraft);
+  chosenStar: Star = new Star(0, "", 0, 0, 0, true, this.planetList, this.spacecrafts);
+  crewProducts: ProductCrew[] = [];
+
+  spacecraft: Spacecraft = new Spacecraft(0, "", 0, 0);
+  crew: Crew = new Crew(0, "", 0, 0, this.spacecraft, this.crewProducts);
 
   // universe: Universe[] = [];
-  constructor(private universeService: UniverseService, private starService: StarService, private route: ActivatedRoute) {
+  constructor(private universeService: UniverseService, private starService: StarService, private playerService: PlayerService, private crewService: CrewService, private route: ActivatedRoute) {
     this.player = this.route.snapshot.params.player;
     this.starId = this.route.snapshot.params.starId;
   }
@@ -36,6 +46,12 @@ export class PrincipalComponent implements OnInit {
 
     this.starService.findStar(this.starId).subscribe(star => this.star = star);
     this.universeService.nearbyStars(this.starId).subscribe(stars => this.stars = stars);
+
+    this.playerService.getCrewPlayer(this.player).subscribe( crewPlayerId => {
+      this.crewPlayerId = crewPlayerId; 
+      this.crewService.getCrew(crewPlayerId).subscribe(crew => this.crew = crew);
+
+    });
 
     //Canva background
     const getRandomParticelPos = (particleCount: number) => {

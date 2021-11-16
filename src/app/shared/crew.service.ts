@@ -12,6 +12,7 @@ export class CrewService {
   constructor(private http: HttpClient) { }
 
   updateTimeCrew(crewid: number, time: number){
+    console.log("entre a updateTimeCrew");
     return this.http.put<any>("http://localhost:8080/crewPlayerTime/" + crewid + "/" + time, time);
   }
 

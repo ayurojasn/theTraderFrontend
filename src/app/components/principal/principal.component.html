@@ -1,5 +1,6 @@
-<div>
-  <canvas id="c"></canvas>
+<canvas id="c"></canvas>
+<div fxLayout="row" fxLayoutAlign="space-evenly stretch">
+
   <mat-card class="card">
     <mat-card-title class="title">Estrellas más cercanas desde {{star.starName}}</mat-card-title>
     <mat-card-subtitle>
@@ -20,5 +21,16 @@
         Viajar
       </button>
     </mat-card-actions>
+  </mat-card>
+
+  <mat-card class="card2">
+    <mat-card-title  class="title">Tu información actual es</mat-card-title>
+    <mat-card-subtitle class="subtitle">
+      Esta información varía de acuerdo a cada viaje que realices
+    </mat-card-subtitle>
+    <p class = "info">Tu tiempo actual es de {{crew.totalTime}} segundos para viajar.</p>
+    <p class = "info">Tus creditos actuales son {{crew.credits}}.</p>
+
+    
   </mat-card>
 </div>
