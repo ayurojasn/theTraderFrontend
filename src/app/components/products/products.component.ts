@@ -36,6 +36,8 @@ export class ProductsComponent implements OnInit {
   producto: Product = new Product(0,"",0,0,0,0,0,true,0,true);
   products: ProductPlanet[] = [];
 
+  credits: number = 0;
+  productid: number = 0;
   crewProducts: ProductCrew[] = [];
 
   spacecraft: Spacecraft = new Spacecraft(0, "", 0, 0);
@@ -50,8 +52,46 @@ export class ProductsComponent implements OnInit {
     this.planet = this.route.snapshot.params.planet;
   }
 
+  compra(planetid:number, productid: number):void{
+
+    //Quitar de productPlanet
+    this.productsService.removeProductPlanet(planetid,productid).subscribe(productid => this.productid = productid);
+    //Poner en productCrew
+
+    this.crewService.addProductCrew(this.crewPlayerId, productid).subscribe(productid => this.productid = productid);
+
+    // get credits 
+    this.productsService.getCreditsProduct(productid).subscribe(credits => {
+      this.credits = credits
+      this.crewService.updateCreditsCompra(this.crewPlayerId, this.credits).subscribe(credits => this.credits = credits);
+    });   
+
+    this.crewService.getCrew(this.crewPlayerId).subscribe(crew => this.crew = crew);
+    this.crewService.getProductCrew(this.crewPlayerId).subscribe(crewProducts => this.crewProducts = crewProducts);
+    this.productsService.getProductPlanet(this.planet).subscribe(products => this.products = products);
+
+  }
+
+  venta(crewid: number, productid: number):void{
+    //Quitar de productCrew
+    this.crewService.removeProductCrew(crewid,productid).subscribe(productid => this.productid = productid);
+    //Poner en productPlanet
+    //Sumar credits del productCrew
+    this.productsService.addProductPlanet(this.planet,productid).subscribe(productid => this.productid = productid);
+
+    this.productsService.getCreditsProduct(productid).subscribe(credits => {
+      this.credits = credits
+      this.crewService.updateCreditsVenta(this.crewPlayerId, this.credits).subscribe(credits => this.credits = credits);
+    }); 
+
+    this.crewService.getCrew(this.crewPlayerId).subscribe(crew => this.crew = crew);
+    this.crewService.getProductCrew(this.crewPlayerId).subscribe(crewProducts => this.crewProducts = crewProducts);
+    this.productsService.getProductPlanet(this.planet).subscribe(products => this.products = products);
+  }
+  
   ngOnInit(): void {
 
+    
     this.productsService.getProductPlanet(this.planet).subscribe(products => this.products = products);
 
     this.playerService.getCrewPlayer(this.player).subscribe( crewPlayerId => {

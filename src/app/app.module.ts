@@ -14,6 +14,7 @@ import {MatRadioModule} from '@angular/material/radio';
 import { FormsModule } from '@angular/forms';
 import { PlanetsComponent } from './components/planets/planets.component';
 import { ProductsComponent } from './components/products/products.component';
+import { FlexLayoutModule } from "@angular/flex-layout";
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { ProductsComponent } from './components/products/products.component';
     MatButtonModule, 
     MatRadioModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    FlexLayoutModule
   ],
   providers: [],
   bootstrap: [AppComponent]

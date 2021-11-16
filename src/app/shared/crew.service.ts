@@ -22,4 +22,30 @@ export class CrewService {
   getCrew(crewid: number): Observable<Crew>{
     return this.http.get<Crew>("http://localhost:8080/crew/" + crewid);
   }
+
+  addProductCrew(crewid: number, productid: number){
+    return this.http.put<any>("http://localhost:8080/addProductCrew/" + crewid + "/" + productid, productid);
+  }
+
+  getCredits(crewid: number) : Observable<number>{
+    return this.http.get<number>("http://localhost:8080/credits/" + crewid)
+  }
+
+  updateCreditsCompra(crewid: number, credits:number){
+    console.log("Entre updateCreditsCompra");
+    console.log("crewid: " + crewid);
+    console.log("credits: " + credits);
+    const response = this.http.put<any>("http://localhost:8080/updateCreditsCompra/" + crewid + "/" + credits, credits);
+    console.log(response);
+    return response
+  }
+
+  updateCreditsVenta(crewid: number, credits:number){
+    const response = this.http.put<any>("http://localhost:8080/updateCreditsVenta/" + crewid + "/" + credits, credits);
+    console.log(response);
+    return response
+  }
+  removeProductCrew(crewid: number, productid: number){
+    return this.http.put<any>("http://localhost:8080/removeProductCrew/" + crewid + "/" + productid, productid);
+  }
 }
