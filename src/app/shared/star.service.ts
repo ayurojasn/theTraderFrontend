@@ -11,9 +11,13 @@ export class StarService {
   constructor(private http: HttpClient) { }
 
   findStar(id: number): Observable<Star>{
-    return this.http.get<Star>("http://localhost:8080/star/" + id);
+    return this.http.get<Star>("http://localhost:8080/star/" + id,{
+      withCredentials: true
+    });
   }
   findAll(): Observable<Star[]> {
-   return this.http.get<Star[]>("http://localhost:8080/stars");
+   return this.http.get<Star[]>("http://localhost:8080/stars", {
+    withCredentials: true
+   });
   }
 }

@@ -12,10 +12,14 @@ export class UniverseService {
   constructor(private http: HttpClient) { }
 
   findAll(): Observable<Universe[]> {
-    return this.http.get<Universe[]>("http://localhost:8080/universe/");
+    return this.http.get<Universe[]>("http://localhost:8080/universe/", {
+      withCredentials: true
+    });
   }
 
   nearbyStars(starId: number): Observable<Star[]>{
-    return this.http.get<Star[]>("http://localhost:8080/nearby/" + starId);
+    return this.http.get<Star[]>("http://localhost:8080/nearby/" + starId, {
+      withCredentials: true
+    });
   }
 }

@@ -11,13 +11,24 @@ export class PlayerService {
   constructor(private http: HttpClient) {}
 
   findPlayer(id: number): Observable<Player>{
-    return this.http.get<Player>("http://localhost:8080/player/" + id);
+    return this.http.get<Player>("http://localhost:8080/player/" + id, {
+      withCredentials: true
+    });
   }
 
   findAll(): Observable<Player[]>{
-    return this.http.get<Player[]>("http://localhost:8080/players");
+    return this.http.get<Player[]>("http://localhost:8080/players", {
+      withCredentials: true
+    });
   }
   getCrewPlayer(playerid: number): Observable<number>{
-    return this.http.get<number>("http://localhost:8080/crewPlayer/" + playerid);
+    return this.http.get<number>("http://localhost:8080/crewPlayer/" + playerid, {
+      withCredentials: true
+    });
+  }
+
+  getPlayerByName(playername: String): Observable<Player>{
+    return this.http.get<Player>("http://localhost:8080/playerName/" + playername, {
+    });
   }
 }

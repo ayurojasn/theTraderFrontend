@@ -13,40 +13,61 @@ export class CrewService {
 
   updateTimeCrew(crewid: number, time: number){
     console.log("entre a updateTimeCrew");
-    return this.http.put<any>("http://localhost:8080/crewPlayerTime/" + crewid + "/" + time, time);
+    return this.http.put<any>("http://localhost:8080/crewPlayerTime/" + crewid + "/" + time, {
+    // time,
+    withCredentials: true
+  });
   }
 
   getProductCrew(crewid: number):  Observable<ProductCrew[]>{
-    return this.http.get<ProductCrew[]>("http://localhost:8080/productCrew/" + crewid);  
+    return this.http.get<ProductCrew[]>("http://localhost:8080/productCrew/" + crewid, {
+      withCredentials: true
+    });  
   }
 
   getCrew(crewid: number): Observable<Crew>{
-    return this.http.get<Crew>("http://localhost:8080/crew/" + crewid);
+    return this.http.get<Crew>("http://localhost:8080/crew/" + crewid, {
+      withCredentials: true
+    });
   }
 
   addProductCrew(crewid: number, productid: number){
-    return this.http.put<any>("http://localhost:8080/addProductCrew/" + crewid + "/" + productid, productid);
+    return this.http.put<any>("http://localhost:8080/addProductCrew/" + crewid + "/" + productid, {
+      // productid,
+      withCredentials: true
+    });
   }
 
   getCredits(crewid: number) : Observable<number>{
-    return this.http.get<number>("http://localhost:8080/credits/" + crewid)
+    return this.http.get<number>("http://localhost:8080/credits/" + crewid, {
+      withCredentials: true
+    })
   }
 
   updateCreditsCompra(crewid: number, credits:number){
     console.log("Entre updateCreditsCompra");
     console.log("crewid: " + crewid);
     console.log("credits: " + credits);
-    const response = this.http.put<any>("http://localhost:8080/updateCreditsCompra/" + crewid + "/" + credits, credits);
+    const response = this.http.put<any>("http://localhost:8080/updateCreditsCompra/" + crewid + "/" + credits, {
+      // credits,
+      withCredentials: true
+  });
     console.log(response);
     return response
   }
 
   updateCreditsVenta(crewid: number, credits:number){
-    const response = this.http.put<any>("http://localhost:8080/updateCreditsVenta/" + crewid + "/" + credits, credits);
+    const response = this.http.put<any>("http://localhost:8080/updateCreditsVenta/" + crewid + "/" + credits, {
+      // credits,
+      withCredentials: true
+  });
     console.log(response);
     return response
   }
   removeProductCrew(crewid: number, productid: number){
-    return this.http.put<any>("http://localhost:8080/removeProductCrew/" + crewid + "/" + productid, productid);
+    return this.http.put<any>("http://localhost:8080/removeProductCrew/" + crewid + "/" + productid, {
+      // productid,
+      withCredentials: true
+  });
   }
 }

@@ -11,6 +11,8 @@ export class PlanetsService {
   constructor(private http: HttpClient) { }
 
   findPlanet(id: number): Observable<Planet>{
-    return this.http.get<Planet>("http://localhost:8080/planet/" + id);
+    return this.http.get<Planet>("http://localhost:8080/planet/" + id,{
+      withCredentials: true
+    });
   }
 }
